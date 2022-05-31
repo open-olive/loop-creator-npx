@@ -1,4 +1,4 @@
-# create-loop-npx
+# Loop Creator (NPX)
 
 This CLI tool allows you to generate an [Olive Helps](https://www.oliveai.dev/) Loop project, with all of the necessary foundation such as permissions, Aptitudes, Whispers, etc. You can choose which Aptitudes you want to use and the tool will provide you with working examples.
 

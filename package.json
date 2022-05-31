@@ -1,0 +1,46 @@
+{
+  "name": "@oliveai/create-loop",
+  "version": "1.3.0",
+  "description": "Create Olive Helps loops with aptitudes of your choice, quickly and easily.",
+  "author": {
+    "name": "Olive AI, Inc."
+  },
+  "copyright": "Copyright (C) 2022 Olive AI, Inc. All rights reserved.",
+  "homepage": "https://github.com/open-olive/loop-creator-npx#readme",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/open-olive/loop-creator-npx.git"
+  },
+  "bugs": {
+    "url": "https://github.com/open-olive/loop-creator-npx/issues"
+  },
+  "main": "dist/index.js",
+  "bin": {
+    "create-loop": "dist/index.js"
+  },
+  "scripts": {
+    "build": "webpack",
+    "dev": "npm run build && node dist/index.js",
+    "lint": "eslint src --fix --ext ts"
+  },
+  "dependencies": {
+    "@oliveai/loop-templates": "1.1.0",
+    "chalk": "5.0.1",
+    "commander": "9.3.0",
+    "prompts": "2.4.2",
+    "squirrelly": "8.0.8",
+    "universal-analytics": "0.5.3"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "5.27.0",
+    "@typescript-eslint/parser": "5.27.0",
+    "@types/universal-analytics": "0.4.5",
+    "@types/prompts": "2.0.14",
+    "eslint": "8.16.0",
+    "webpack": "5.72.1",
+    "webpack-cli": "4.9.2",
+    "ts-loader": "9.3.0",
+    "typescript": "4.7.2"
+  }
+}

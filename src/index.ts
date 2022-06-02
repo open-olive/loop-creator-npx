@@ -61,7 +61,7 @@ const createProject = async () => {
     const renderTemplate = async (template: string, filePath: string) => {
       const fileContents = await Sqrl.render(template, {
         isTypeScript,
-        hasConfigAptitude: projectAptitudes.includes("config"),
+        hasConfigAptitude: projectAptitudes.includes('config'),
         projectName,
         aptitudes: projectAptitudes,
         promiseVoid: ': Promise<void>',
@@ -166,24 +166,95 @@ const aptitudesPrompt = () => {
     name: 'aptitudes',
     message: 'Which Aptitudes do you want to include?',
     choices: [
-      { title: 'Browser', value: 'browser' },
-      { title: 'Clipboard', value: 'clipboard' },
-      { title: 'Cursor', value: 'cursor' },
-      { title: 'Config', value: 'config' },
-      { title: 'Document', value: 'document' },
-      { title: 'Filesystem', value: 'filesystem' },
-      { title: 'Keyboard', value: 'keyboard' },
-      { title: 'Network', value: 'network' },
-      { title: 'Process', value: 'process' },
-      { title: 'Search', value: 'search' },
-      { title: 'System', value: 'system'},
-      { title: 'UI', value: 'ui' },
-      { title: 'User', value: 'user' },
-      { title: 'Vault', value: 'vault' },
-      { title: 'Window', value: 'window' },
+      {
+        title: 'Browser',
+        value: 'browser',
+        description:
+          'This Aptitude, combined with the Olive Helps browser extension, allows an author to interact with your browser.',
+      },
+      {
+        title: 'Clipboard',
+        value: 'clipboard',
+        description:
+          'The Clipboard Aptitude provides the ability to interact with your clipboard on your system.',
+      },
+      {
+        title: 'Config',
+        value: 'config',
+        description:
+          'The Config Aptitude is an optional Aptitude that a Loop Developer may implement in order to allow org admins to define loop properties designated by a loop author to be configurable.',
+      },
+      {
+        title: 'Cursor',
+        value: 'cursor',
+        description:
+          'The Cursor Aptitude provides the ability to retrieve information about the user\'s cursor.',
+      },
+      {
+        title: 'Document',
+        value: 'document',
+        description:
+          'The Document Aptitude provides the ability to interact with documents (currently only XLSX files).',
+      },
+      {
+        title: 'Filesystem',
+        value: 'filesystem',
+        description:
+          'The Filesystem Aptitude provides the ability to interact with files on the system (including things reading, writing, and deleting).',
+      },
+      {
+        title: 'Keyboard',
+        value: 'keyboard',
+        description:
+          'The Keyboard Aptitude provides access to the the ability to listen to hotkeys pressed and text or characters typed.',
+      },
+      {
+        title: 'Network',
+        value: 'network',
+        description:
+          'The Network aptitude provides the ability make HTTP requests, set up a web socket connection, and encode and decode Uint8Arrays.',
+      },
+      {
+        title: 'Process',
+        value: 'process',
+        description:
+          'The Process Aptitude provides the ability to examine attributes about processes running on the user\'s computer.',
+      },
+      {
+        title: 'Search',
+        value: 'search',
+        description:
+          'The Search Aptitude provides the ability to index a set of documents and search the data using query strings and fuzzy searching.',
+      },
+      {
+        title: 'System',
+        value: 'system',
+        description:
+          'The System Aptitude provides the ability to access information about the user\'s system.',
+      },
+      {
+        title: 'User',
+        value: 'user',
+        description:
+          'The User aptitude provides the ability to retrieve a JWT for the current user which can be used to identify an Olive Helps user to 3rd party services.',
+      },
+      {
+        title: 'Vault',
+        value: 'vault',
+        description:
+          'The Vault Aptitude provides the ability to read and write strings in either macOS\' Keychain or Window\'s Credential Manager, depending on the system.',
+      },
+      {
+        title: 'Window',
+        value: 'window',
+        description:
+          'The Window Aptitude provides the ability to obtain information about windows on a user\'s desktop (position, name, etc.) as well as listen to window events (gaining focus, losing focus, etc.).',
+      },
     ],
     hint: 'Use your spacebar to select. You can select multiple!',
   }).then((response) => {
+    // pushing in required aptitudes
+    response.aptitudes.push('whisper', 'ui');
     const { aptitudes }: { aptitudes: ProjectOptions['aptitudes'] } = response;
     projectOptions.aptitudes = aptitudes;
 

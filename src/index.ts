@@ -9,20 +9,17 @@ import * as prompts from 'prompts';
 import * as Sqrl from 'squirrelly';
 import * as ua from 'universal-analytics';
 import { default as templates } from '@oliveai/loop-templates';
-import {
-  TemplatesObject,
-  TemplateFile,
-} from '@oliveai/loop-templates/dist/types';
+import { TemplatesObject, TemplateFile } from '@oliveai/loop-templates/dist/types';
 
-const analytics = __GOOGLE_ANALYTICS_ID__
-  ? ua(__GOOGLE_ANALYTICS_ID__)
-  : // For development
-    {
-      event: () => ({
-        send: () => undefined,
+const analytics = __GOOGLE_ANALYTICS_ID__ ? 
+  ua(__GOOGLE_ANALYTICS_ID__) : 
+  // For development
+  {
+    event: () => ({
+        send: () => undefined
       }),
-      set: () => undefined,
-    };
+    set: () => undefined,
+  };
 
 const osName = platform === 'win32' ? 'windows' : platform;
 
@@ -30,9 +27,9 @@ analytics.set('cd1', __ENVIRONMENT__);
 analytics.set('cd4', osName);
 
 type ProjectOptions = {
-  name: string;
-  language: string;
-  aptitudes: TemplateFile['aptitude'][];
+  name: string,
+  language: string,
+  aptitudes: TemplateFile['aptitude'][]
 };
 
 const projectOptions: ProjectOptions = {
@@ -84,10 +81,7 @@ const createProject = async () => {
       return filename;
     };
 
-    const renderFileMap = async (
-      templatesObject: TemplatesObject,
-      targetFilePath: string
-    ) => {
+    const renderFileMap = async (templatesObject: TemplatesObject, targetFilePath: string) => {
       const { fileMap } = templatesObject;
       if (!fileMap) {
         return console.error('There is no file map on this object');
@@ -102,9 +96,8 @@ const createProject = async () => {
           aptitude !== 'any' &&
           !projectAptitudes.includes(aptitude) &&
           !nonzero
-        ) {
-          continue;
-        }
+        )
+          {continue;}
 
         // If it's a string, it's a template. Otherwise, it's a directory/object.
         if (typeof templatesObject[key] === 'string') {
@@ -117,10 +110,7 @@ const createProject = async () => {
           const newTargetFilePath = path.join(targetFilePath, key);
           await fs.mkdir(newTargetFilePath);
 
-          await renderFileMap(
-            templatesObject[key] as TemplatesObject,
-            newTargetFilePath
-          );
+          await renderFileMap(templatesObject[key] as TemplatesObject, newTargetFilePath);
         }
       }
     };
@@ -130,16 +120,14 @@ const createProject = async () => {
     await fs.mkdir(targetBasePath);
 
     await renderFileMap(templates, targetBasePath);
-
+    
     try {
-      analytics
-        .event({
-          eventCategory: 'Loop Authors',
-          eventAction: 'Loop Source Code Generated: NPX',
-          eventLabel: 'Loop Created',
-        })
-        .send();
-    } catch (error) {}
+      analytics.event({
+        eventCategory: 'Loop Authors',
+        eventAction: 'Loop Source Code Generated: NPX',
+        eventLabel: 'Loop Created',
+      }).send();
+    } catch (error) {};
 
     installNodeModules();
   } catch (error) {
@@ -161,13 +149,11 @@ const languagePrompt = () => {
     projectOptions.language = language;
 
     try {
-      analytics
-        .event({
-          eventCategory: 'Loop Authors',
-          eventAction: 'Loop Source Code Generated: NPX',
-          eventLabel: `Language Selected: ${language}`,
-        })
-        .send();
+      analytics.event({
+        eventCategory: 'Loop Authors',
+        eventAction: 'Loop Source Code Generated: NPX',
+        eventLabel: `Language Selected: ${language}`,
+      }).send();
     } catch (error) {}
 
     return createProject();
@@ -274,13 +260,11 @@ const aptitudesPrompt = () => {
 
     aptitudes.forEach((aptitude) => {
       try {
-        analytics
-          .event({
-            eventCategory: 'Loop Authors',
-            eventAction: 'Loop Source Code Generated: NPX',
-            eventLabel: `Aptitude Selected: ${aptitude}`,
-          })
-          .send();
+        analytics.event({
+          eventCategory: 'Loop Authors',
+          eventAction: 'Loop Source Code Generated: NPX',
+          eventLabel: `Aptitude Selected: ${aptitude}`,
+        }).send();
       } catch (error) {}
     });
 

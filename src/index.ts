@@ -11,8 +11,8 @@ import * as ua from 'universal-analytics';
 import { default as templates } from '@oliveai/loop-templates';
 import { TemplatesObject, TemplateFile } from '@oliveai/loop-templates/dist/types';
 
-const analytics = __GOOGLE_ANALYTICS_ID__ ? 
-  ua(__GOOGLE_ANALYTICS_ID__) : 
+const analytics = __GOOGLE_ANALYTICS_ID__ ?
+  ua(__GOOGLE_ANALYTICS_ID__) :
   // For development
   {
     event: () => ({
@@ -120,7 +120,7 @@ const createProject = async () => {
     await fs.mkdir(targetBasePath);
 
     await renderFileMap(templates, targetBasePath);
-    
+
     try {
       analytics.event({
         eventCategory: 'Loop Authors',
@@ -278,14 +278,18 @@ const projectNamePrompt = () =>
     name: 'projectName',
     message: 'What is your project name? (a-z A-Z 0-9 . - _ ~)',
     format: (projectNameInput) =>
-      projectNameInput.replace(/ /g, '-').toLowerCase(),
+      projectNameInput
+        .trim()
+        .toLowerCase()
+        .replace(/\s+/g, '-'),
     validate: (projectNameInput) => {
       // The regex pattern NPM uses for project names in package.json http://json.schemastore.org/package
       const NPM_PROJECT_NAME_PATTERN =
         /^(?:@[a-z0-9-*~][a-z0-9-*._~]*\/)?[a-z0-9-~][a-z0-9-._~]*$/g;
       const projectNameFormatted = projectNameInput
-        .replace(/ /g, '-')
-        .toLowerCase();
+        .trim()
+        .toLowerCase()
+        .replace(/\s+/g, '-');
 
       return projectNameFormatted.match(NPM_PROJECT_NAME_PATTERN);
     },
